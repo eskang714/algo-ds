@@ -1,7 +1,7 @@
 Just an authors note: 
 I am a strong believer that programming data structures are fundamentally made of 
-objects, arrays, and pointers. I believe that fundamentally, coding is just 
-having a computer programmed to solve abstract concepts that we must 
+abstract ideas we call objects, arrays, and pointers. 
+I believe that fundamentally, coding is just having a computer programmed to solve abstract concepts that we must 
 break down and create a logical process for it to compute the ideas we have. 
 EX1 A data name is an object that points to 'attributes'
     that can either have more objects, arrays, or pointers. 
