@@ -83,63 +83,160 @@ function binarySearch(inputArray, constraint) {
 }
 
 // example use cases:
+const firstBadVersion278 = () => {
+  /*
+  Problem: leetcode 278: First Bad Version
+  https://leetcode.com/problems/first-bad-version/
 
-/*
-Problem: leetcode 278. First Bad Version
-https://leetcode.com/problems/first-bad-version/
+  Solution explained: 
+  Because we have to run through an api to check if the version is the 
+  first bad version, this tells us that we must make a BSA that 
+  can quickly close into the first bad version by zeroing into 
+  the first bad version by having the left and right pointers intersect. 
+  This will be our ticket into creating a solution. 
 
-Solution explained: 
-Because we have to run through an api to check if the version is the 
-first bad version, this tells us that we must make a BSA that 
-can quickly close into the first bad version by zeroing into 
-the first bad version by having the left and right pointers intersect. 
-This will be our ticket into creating a solution. 
+  ~Logic Cooking Recipe Notes
+  1. Create a function that will take an input value of an integer. 
+    If you think about it, the first version will either be 0 or 1. 
+    Because the constraint of the input value, it is going to start at 1. 
+    Because each version increments by 1 integer, if the input value is 7, 
+    our search will be an array of 1,2,3,4,5,6,7. 
 
-~Logic Cooking Recipe Notes
-1. Create a function that will take an input value of an integer. 
-   If you think about it, the first version will either be 0 or 1. 
-   Because the constraint of the input value, it is going to start at 1. 
-   Because each version increments by 1 integer, if the input value is 7, 
-   our search will be an array of 1,2,3,4,5,6,7. 
+  2. Create a left and right pointer. 
+    -Left will be 1, since the first version will always start at 1.
+    -Right value will be the input value, since this is the
+    most up to date version. 
+    *you can save space in terms of memory by using the input value itself. 
+    but out of readability I will create a new value. 
 
-2. Create a left and right pointer. 
-  -Left will be 1, since the first version will always start at 1.
-  -Right value will be the input value, since this is the
-   most up to date version. 
-   *you can save space in terms of memory by using the input value itself. 
-   but out of readability I will create a new value. 
+  3. Create teh middle value, just like the algorith, 
+    we will initialize it but not calculate the middle value just yet. 
 
-3. Create teh middle value, just like the algorith, 
-   we will initialize it but not calculate the middle value just yet. 
+  4. Create a for loop. The argument of this loop will be while left is less than or equal to right.
+    -If the conditions of the argument is false, jump to step 7
 
-4. Create a for loop. The argument of this loop will be while left is less than or equal to right.
-  -If the conditions of the argument is false, jump to step 7
+  5. Compute the middle point value of left and right
 
-5. Compute the middle point value of left and right
+  6. Check to see if the value returns true or false through the bad version api
+      - If the value returns false, we reassign left to the value of middle + 1
+      - If the value returns true, we reassign the value of right to middle - 1
+      -repeat step 4. 
 
-6. Check to see if the value returns true or false through the bad version api
-    - If the value returns false, we reassign left to the value of middle + 1
-    - If the value returns true, we reassign the value of right to middle - 1
-    -repeat step 4. 
+  7. Because value of left is the newer version that right: 
+    -return left
+  */
 
-7. Because value of left is the newer version that right: 
-   -return left
-*/
+  function solution(isBadVersion) {
+    /**
+     * @param {integer} n Total versions
+     * @return {integer} The first bad version
+     */
+    return function(n) {
+        var left = 0, right = n
+        var middle
+        while (left <= n) {
+            middle = Math.floor((right - left)/2) + left
+            isBadVersion(middle) ? right = middle - 1 : left = middle + 1
+        }
+        return left
+    }
+  }
+}
 
-var solution = function(isBadVersion) {
+
+const kokoEatingBananas875 = () => {
+//Problem: leetcode 875: Koko Eating Bananas 
+  /*
+  https://leetcode.com/problems/koko-eating-bananas/
+
+  Solution explained: 
+  There is three variables we must understand
+  
+  1. An array with values of integers
+    -The value of the integers in the array represent banana piles
+  2. An integer that represents the hours Koko has to eat the bananas
+  3. An output integer that represents the number of banans Koko eats per hour
+
+  Variables 1 and 2 will be our input values or arguments
+  Variable 3 will be the output we must return
+  
+  Figuring out how to get the proper value of the 3rd variable:
+  If we read the problem correctly, we can understand the parameters of the eating speed:
+  -"Koko can decide her bananas-per-hour eating speed of k"
+  -"Each hour, she chooses some pile of bananas and eats k bananas from that pile."
+  -"If the pile has less than k bananas, she eats all of them instead 
+    and will not eat any more bananas during this hour"
+  -"Koko likes to eat slowly but still wants to finish eating all the bananas 
+    before the guards return."
+
+  With this information we understand that there is a constant eating speed
+  The constant eating speed must be the able to eat all the bananas in the
+  piles by the hours given. We want to find the smallest value without 
+  exceeding the hours given to us. 
+
+  Essentially we are going to start with value 1 and the max pile value 
+  and use a binary search that will compute the middle value of min and max. 
+  Use that middle value to see if we need to increase or decrease the ammount 
+  and find our solution.
+
+  ~Logic Cooking Recipe Notes
+  1. Receive two input values. 
+    -An array with integer values
+    -An integer that represents the time limit 
+     we have to eat all the bananas
+  2. Create two integers left and right
+    -left will have a value of 1, since eating 0 bananas per hour
+     will never let Koko eat all the bananas
+    -right will be the biggest integer in our integer array. 
+      *You can use a built in method to return the biggest value or
+       you can run through the array that will return the value. 
+       Either method will be O(n) in time complexity
+  3. Create or continue a while loop with the argument left is less than or equal to right
+    -If the argument is false, then jump to step#
+  4. Create a middle value that will find the middle integer of left and right
+  5.Initialize a variable named sum
+    -We will use this to find the number of hours it takes to eat all 
+     the bananas in the pile. 
+  6. Create a for loop that will take each value of the input integer 
+     to increment the sum value.
+     -For each pile, we will compute pile / middle and round up. 
+      We are rounding up because, Koko wants to take as much time
+      to eat each banana in the pile. 
+  7. We will check to see if the value of sum is less than or equal to 
+     our input limit. 
+     -If sum is less than input limit
+      *assign right as middle - 1
+       We want to increase the value of sum for the next iteration 
+       to check and see if we still have time to spare. 
+     -Else, we have clearly passed the limit hour
+      *assign left as middle + 1
+        We need to decrease the value because we will either 
+        use up too much time, or cannot finish the bananas before 
+        the limit integer. 
+  8. Loop again back to step 3.
+  9. Return Left, since it will be the valid that will allow Koko to each 
+     from the banana pile as slowly as Koko can.
+  */
+
   /**
-   * @param {integer} n Total versions
-   * @return {integer} The first bad version
+   * @param {number[]} piles
+   * @param {number} h
+   * @return {number}
    */
-  // n is right
-  return function(n) {
-      var left = 0, right = n
-      var middle
-      while (left <= n) {
-          middle = Math.floor((right - left)/2) + left
-          isBadVersion(middle) ? right = middle - 1 : left = middle + 1
-      }
-      return left
-      
-  };
-};
+  var minEatingSpeed = function(piles, h) {
+    var left = 1, right = Math.max(...piles)
+    
+    while (left <= right) {
+        let middle = left + Math.floor((right-left)/2) 
+        let sum = 0
+        for (let pile of piles) sum = sum + Math.ceil(pile/middle)
+        
+        if (sum <= h) {
+            right = middle - 1
+        } else {
+            left = middle + 1
+        }
+    }
+    return left
+  }
+}
