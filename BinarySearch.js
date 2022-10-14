@@ -240,3 +240,70 @@ const kokoEatingBananas875 = () => {
     return left
   }
 }
+
+
+const medianOfTwoSortedArrays4 = () => {
+  //Problem: leetcode 4: Median of Two Sorted Arrays
+    /*
+    https://leetcode.com/problems/median-of-two-sorted-arrays/
+  
+    Solution explained: 
+    tbd
+    ~Logic Cooking Recipe Notes
+    tbd
+    */
+  
+    /**
+     * @param {number[]} piles
+     * @param {number} h
+     * @return {number}
+     */
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number}
+ */
+  var findMedianSortedArrays = function(nums1, nums2) {
+    if (nums2.length < nums1.length) [nums1, nums2] = [nums2, nums1]
+    
+    var half = nums1.length + nums2.length
+    var isEven = half % 2 == 0 ? true : false
+    half = Math.ceil(half/2) - 2
+    
+    var l = 0, r = nums1.length -1
+
+    const bounds = (indexArr, arrays) => {
+        let result = [0, 0, 0, 0]
+        let switchArr = 0
+        for (let i in indexArr) {
+            if (indexArr[i] < 0) result[i] = -Infinity
+            else if (indexArr[i] >= arrays[switchArr].length) result[i] = Infinity
+            else result[i] = arrays[switchArr][indexArr[i]]
+            switchArr = switchArr == 0 ? 1 : 0
+        }
+        return result
+    }
+    
+    
+    while (true) {
+        let i1 = l + Math.floor((r-l)/2)
+        let i2 = half - i1
+        
+        let [left1, left2, right1, right2] = bounds([i1,i2,i1+1,i2+1],[nums1, nums2])
+        
+        if (left1 > right2) {
+            r = i1 - 1
+        } else if (left2 > right1) {
+            l = i1 + 1
+        } else {
+            let one = Math.max(left1, left2)
+            if (isEven) {
+                let two = Math.min(right1, right2)
+                one = (two+one)/2
+            } 
+            return one
+        }
+    }
+  }
+}
+  
