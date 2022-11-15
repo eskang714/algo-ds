@@ -272,7 +272,7 @@ const medianOfTwoSortedArrays4 = () => {
     
     var l = 0, r = nums1.length -1
 
-    const bounds = (indexArr, arrays) => {
+    const bounds = (indexArr, arrays) => {``
         let result = [0, 0, 0, 0]
         let switchArr = 0
         for (let i in indexArr) {
